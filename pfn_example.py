@@ -73,7 +73,7 @@ mc = ModelCheckpoint('best_pfn.keras', monitor='val_acc', mode='max', verbose=1,
 print('Loading the dataset ...')
 
 # load data
-X, y = qg_jets.load(train + val + test)
+X_p8, y_p8 = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/oscar/data/mleblan6/energyflow')
 
 print('Dataset loaded!')
 
