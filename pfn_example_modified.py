@@ -78,6 +78,10 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
+#TODO switch dtype
+
+print('Datatypes switched!')
+
 # convert labels to categorical
 Y = to_categorical(y, num_classes=2)
 
