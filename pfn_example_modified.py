@@ -89,10 +89,19 @@ print('Loaded quark and gluon jets')
 
 # preprocess by centering jets and normalizing pts
 for x in X:
-    mask = x[:,0] > TARGET_DTYPE(0)
-    yphi_avg = np.average(x[mask,1:3], weights=x[mask,0], axis=0, dtype=TARGET_DTYPE)
-    x[mask,1:3] -= yphi_avg.astype(TARGET_DTYPE, copy=False)
-    x[mask,0] /= x[:,0].sum()
+    mask = x[:, 0] > TARGET_DTYPE(0)
+    w = x[mask, 0].astype(TARGET_DTYPE, copy=False)
+    coords = x[mask, 1:3]
+    wsum = w.sum(dtype=TARGET_DTYPE)
+    if wsum > TARGET_DTYPE(0):
+        num = (coords * w[:, None]).sum(axis=0, dtype=TARGET_DTYPE)
+        yphi_avg = num / wsum
+        x[mask, 1:3] -= yphi_avg.astype(TARGET_DTYPE, copy=False)
+
+    # normalize pt in TARGET_DTYPE
+    denom = x[:, 0].sum(dtype=TARGET_DTYPE)
+    if denom > TARGET_DTYPE(0):
+        x[mask, 0] /= denom
 
 # handle particle id channel
 if use_pids:
