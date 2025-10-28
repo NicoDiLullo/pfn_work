@@ -78,7 +78,7 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
-#TODO switch dtype
+X.astype(np.float32, copy=False)
 
 print('Datatypes switched!')
 
