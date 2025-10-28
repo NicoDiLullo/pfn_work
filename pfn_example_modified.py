@@ -56,6 +56,7 @@ print("pfn_example.py\tWelcome!")
 #train, val, test = 75000, 10000, 15000
 train, val, test = 1500000, 250000, 250000
 use_pids = False
+TARGET_DTYPE = np.float32
 
 # network architecture parameters
 Phi_sizes, F_sizes = (100, 100, 128), (100, 100, 100)
@@ -78,8 +79,7 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
-X.astype(np.float32, copy=False)
-
+X.astype(TARGET_DTYPE, copy=False)
 print('Datatypes switched!')
 
 # convert labels to categorical
@@ -89,9 +89,9 @@ print('Loaded quark and gluon jets')
 
 # preprocess by centering jets and normalizing pts
 for x in X:
-    mask = x[:,0] > 0
-    yphi_avg = np.average(x[mask,1:3], weights=x[mask,0], axis=0)
-    x[mask,1:3] -= yphi_avg
+    mask = x[:,0] > TARGET_DTYPE(0)
+    yphi_avg = np.average(x[mask,1:3], weights=x[mask,0], axis=0, dtype=TARGET_DTYPE)
+    x[mask,1:3] -= yphi_avg.astype(TARGET_DTYPE, copy=False)
     x[mask,0] /= x[:,0].sum()
 
 # handle particle id channel

@@ -1,0 +1,3 @@
+Downloading QG_jets.npz from https://zenodo.org/record/3164691/files/QG_jets.npz?download=1 to /tmp/.energyflow/datasets
+Loaded dtypes -> X: float64  y: float64
+Shapes -> X: (42000, 139, 4)  y: (42000,)
