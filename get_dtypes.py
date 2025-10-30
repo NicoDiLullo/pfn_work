@@ -1,3 +1,7 @@
+'''
+This script served as basic confirmation of the datatypes I was starting with (all float64s)
+'''
+
 from energyflow.archs.efn import PFN
 from energyflow.datasets import qg_jets
 from energyflow.utils import data_split, remap_pids, to_categorical
