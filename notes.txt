@@ -14,3 +14,21 @@ PFN AUC: 0.8925730590347885 (50 epochs)
 
 fp16
 PFN AUC: 0.8912750810459911
+
+1 dimensional histograms
+run like 10 times each
+plot constituient features (pt, y, phi)
+turn y into bits
+inference time
+storage
+jet-level histograms of jet mass
+plot float 64 vs float 16 vs 32 and file size
+try with top-tagging
+
+classifier to tell if float16/32 or float64
+
+"transforming jet flavor tagging at atlas"
+- Could take their samples, make the same change, replicate their transformer results, much more interesting
+    - Easiest place for full scale example
+    - Could also do internally on CMS
+        -  Root trees
