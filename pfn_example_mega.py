@@ -143,7 +143,7 @@ float16_oi = []
 
 
 for i in range(10):
-    x, f64oi = load_and_run(np.float32, seed=i*42)
+    x, f64oi = load_and_run(np.float64, seed=i*42)
     float64_accs.append(x)
     float64_oi.append(f64oi)
 for i in range(10):
@@ -151,7 +151,7 @@ for i in range(10):
     float32_accs.append(x)
     float32_oi.append(f32oi)
 for i in range(10):
-    x, f16oi = load_and_run(np.float32, seed=i*42)
+    x, f16oi = load_and_run(np.float16, seed=i*42)
     float16_accs.append(x)
     float16_oi.append(f16oi)
 
