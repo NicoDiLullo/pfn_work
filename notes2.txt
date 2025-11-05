@@ -119,3 +119,40 @@ Loaded quark and gluon jets
 // dtype classify run locally w/ smaller test sizes
 
 
+
+d tree:
+
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 45.8875%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 47.8275%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 46.8125%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 45.3225%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 45.5350%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 45.8100%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 47.6175%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 45.6725%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 45.6025%
+Classifying f64 vs f32...
+Accuracy of f64 vs f32 classification: 43.8375%
+
+
+
+0.476475
+0.473675
+0.477775
+0.47665
+0.4727
+0.476375
+0.474675
+0.4756
+0.4751
+0.47465
+0.4752
