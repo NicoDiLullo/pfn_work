@@ -130,11 +130,42 @@ def load_and_run(X, y, dtype):
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 
 
 X_64, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float64)
-X_32 = X_64.astype(np.float32, copy=True)
-X_16 = X_64.astype(np.float16, copy=True)
+X_32, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float32)
+X_16, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float16)
+
+def run_linear_classifier(X1, X2, label1, label2, seed):
+    print(f"\n[Linear Model] Classifying {label1} vs {label2}...")
+    n = min(len(X1), len(X2))
+    X = np.vstack((X1.reshape(len(X1), -1)[:n],
+                   X2.reshape(len(X2), -1)[:n]))
+    y = np.array([0]*n + [1]*n)
+
+    Xtr, Xte, ytr, yte = train_test_split(
+        X, y, test_size=0.2, random_state=seed, stratify=y
+    )
+
+    # Logistic Regression
+    #lr = LogisticRegression(max_iter=1000, n_jobs=-1)
+    #lr.fit(Xtr, ytr)
+    #yhat_lr = lr.predict(Xte)
+    #print("LogReg acc:", accuracy_score(yte, yhat_lr))
+
+    # Linear SVM
+    svm = LinearSVC(dual=False)
+    svm.fit(Xtr, ytr)
+    yhat_svm = svm.predict(Xte)
+    print(accuracy_score(yte, yhat_svm))
+#run_linear_classifier(X_64, X_32, 'float64', 'float32', seed=42)
+#run_linear_classifier(X_32, X_16, 'float32', 'float16', seed=42)
+accs = [run_linear_classifier(X_64, X_16, 'f64', 'f16', s) for s in range(10)]
+print(np.mean(accs), np.std(accs))
+
+'''
 
 eq = np.array_equal(X_64.astype(np.float32), X_32)
 print("fp64→fp32 equality:", eq)
@@ -153,12 +184,15 @@ def run_classifier(X1, X2, label1, label2, seed):
     y_pred = classifier.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     print(f'Accuracy of {label1} vs {label2} classification: {accuracy * 100:.4f}%')
-
-run_classifier(X_64, X_32, 'float64', 'float32', seed=42)
-run_classifier(X_32, X_16, 'float32', 'float16', seed=42)
-
+'''
+#run_classifier(X_64, X_32, 'float64', 'float32', seed=42)
+#run_classifier(X_32, X_16, 'float32', 'float16', seed=42)
 
 '''
+accs = [run_classifier(X_64, X_32, 'f64','f32', s) for s in range(10)]
+print("f64 vs f32 mean±std:", np.mean(accs), np.std(accs))
+
+
 #classify
 def classifier(seed):
     print('Starting dtype classification...')
