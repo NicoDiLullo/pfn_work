@@ -131,8 +131,8 @@ def load_and_run(dtype, seed):
     print()
 
     # get multiplicity and mass for comparison
-    masses = np.asarray([ef.ms_from_p4s(ef.p4s_from_ptyphims(x).sum(axis=0)) for x in X])
-    mults = np.asarray([np.count_nonzero(x[:,0]) for x in X])
+    masses = np.asarray([ef.ms_from_p4s(ef.p4s_from_ptyphims(x).sum(axis=0)) for x in X_test])
+    mults = np.asarray([np.count_nonzero(x[:,0]) for x in X_test])
     mass_fp, mass_tp, threshs = roc_curve(Y[:,1], -masses)
     mult_fp, mult_tp, threshs = roc_curve(Y[:,1], -mults)
     mass_auc = roc_auc_score(Y_test[:,1], masses)
