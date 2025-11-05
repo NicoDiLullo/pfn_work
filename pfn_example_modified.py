@@ -17,7 +17,8 @@
 
 # standard library imports
 from __future__ import absolute_import, division, print_function
-
+#import os
+#os.environ['TF_DISABLE_MLIR_GPU_OPS'] = '1'  # Fallback to CPU
 # standard numerical library imports
 
 # Data I/O and numerical imports
@@ -75,7 +76,7 @@ mc = ModelCheckpoint('best_pfn.keras', monitor='val_acc', mode='max', verbose=1,
 print('Loading the dataset ...')
 
 # load data
-X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/oscar/data/mleblan6/energyflow')
+X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/users/ndilullo/work/pfn_work/efcache')
 
 print('Dataset loaded!')
 

@@ -4,3 +4,4 @@ tensorflow.venv/
 *.pdf
 logs/
 *.gif
+efcache
