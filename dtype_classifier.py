@@ -137,7 +137,7 @@ from sklearn.svm import LinearSVC
 X_64, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float64)
 X_32, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float32)
 X_16, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float16)
-
+'''
 def run_linear_classifier(X1, X2, label1, label2, seed):
     print(f"\n[Linear Model] Classifying {label1} vs {label2}...")
     n = min(len(X1), len(X2))
@@ -164,7 +164,7 @@ def run_linear_classifier(X1, X2, label1, label2, seed):
 #run_linear_classifier(X_32, X_16, 'float32', 'float16', seed=42)
 accs = [run_linear_classifier(X_64, X_16, 'f64', 'f16', s) for s in range(10)]
 print(np.mean(accs), np.std(accs))
-
+'''
 '''
 
 eq = np.array_equal(X_64.astype(np.float32), X_32)
