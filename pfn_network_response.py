@@ -132,7 +132,7 @@ pfn.fit(X_train, Y_train,
 
 # get predictions on test data
 preds = pfn.predict(X_test, batch_size=1000)
-np.save('preds_fp64.npy', preds[:, 1])
+np.save('preds_fp32.npy', preds[:, 1])
 
 # get ROC curve
 pfn_fp, pfn_tp, threshs = roc_curve(Y_test[:,1], preds[:,1])
