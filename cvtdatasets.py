@@ -1,11 +1,12 @@
-from __future__ import absolute_import, division, print_function
-
 import numpy as np
+import os
 
 print('Loading the dataset ...')
 
 cache_directory = '/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache'
 out_directory = '/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out'
+os.makedirs(out_directory, exist_ok=True)
+
 filenames = ["QG_jets_1.npz",
     "QG_jets_2.npz",
     "QG_jets_3.npz",
@@ -27,8 +28,41 @@ filenames = ["QG_jets_1.npz",
     "QG_jets_19.npz",
     "QG_jets.npz"]
 
-for filename in filenames:
-    print(cache_directory + "/" + filename)
+def float_32(compressed=False):
+    for filename in filenames:
+        source = os.path.join(cache_directory, filename)
+        with np.load(source) as data:
+            X = data["X"].astype(np.float32, copy=True)
+            y = data["y"].astype(np.float32, copy=True)
+            filename.replace(".npz", "")
+            if compressed:
+                filename + "_float32compressed.npz"
+                write_to = os.path.join(out_directory, filename)
+                np.savez_compressed(write_to, X=X, y=y)
+            else:
+                filename + "_float32.npz"
+                write_to = os.path.join(out_directory, filename)
+                np.savez_compressed(write_to, X=X, y=y)
+
+
+def float_16(compressed=False):
+    for filename in filenames:
+        source = os.path.join(cache_directory, filename)
+        with np.load(source) as data:
+            X = data["X"].astype(np.float16, copy=True)
+            y = data["y"].astype(np.float16, copy=True)
+            filename.replace(".npz", "")
+            if compressed:
+                filename + "_float16compressed.npz"
+                write_to = os.path.join(out_directory, filename)
+                np.savez_compressed(write_to, X=X, y=y)
+            else:
+                filename + "_float16.npz"
+                write_to = os.path.join(out_directory, filename)
+                np.savez_compressed(write_to, X=X, y=y)
+def main():
+    float_32()
+    float_16()
 
 '''
 # load data
