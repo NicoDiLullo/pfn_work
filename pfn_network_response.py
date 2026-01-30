@@ -80,14 +80,17 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
-X = X.astype(TARGET_DTYPE, copy=False)
-print('Datatypes switched!')
+X_f32 = X.astype(TARGET_DTYPE, copy=True)
+X_f64 = X.astype(TARGET_DTYPE, copy=True)
+#X = X.astype(TARGET_DTYPE, copy=False)
+#print('Datatypes switched!')
 
 # convert labels to categorical
 Y = to_categorical(y, num_classes=2)
 
 print('Loaded quark and gluon jets')
 
+def preprocess(X):
 # preprocess by centering jets and normalizing pts
 for x in X:
     mask = x[:, 0] > TARGET_DTYPE(0)
@@ -116,6 +119,15 @@ print('Finished preprocessing')
 (X_train, X_val, X_test,
  Y_train, Y_val, Y_test) = data_split(X, Y, val=val, test=test)
 
+X_train_f64 = X_train.astype(np.float64)
+X_val_f64 = X_val.astype(np.float64)
+X_test_f64 = X_test.astype(np.float64)
+
+X_train_f32 = X_train.astype(np.float32)
+X_val_f32 = X_val.astype(np.float32)
+X_test_f32 = X_test.astype(np.float32)
+
+
 print('Done train/val/test split')
 print('Model summary:')
 
@@ -131,17 +143,45 @@ pfn.fit(X_train, Y_train,
         callbacks=[es,mc])
 
 # get predictions on test data
-preds = pfn.predict(X_test, batch_size=1000)
-np.save('preds_fp32.npy', preds[:, 1])
+preds64 = pfn.predict(X_test_f64, batch_size=1000)
+#np.save('preds_fp32.npy', preds[:, 1])
 
+preds32 = pfn.predict(X_test_f32, batch_size=1000)
+#np.save('preds_fp32.npy', preds[:, 1])
+
+if preds64.shape != preds32.shape:
+    raise ValueError(f"Shape mismatch: {preds64.shape} vs {preds32.shape}")
+
+plt.figure(figsize=(5, 5))
+
+# 2D density plot
+plt.hexbin(preds64, preds32, gridsize=100, bins='log')
+plt.plot([0, 1], [0, 1], 'k--', linewidth=1)  # y = x line
+
+plt.xlabel('PFN score (float64)')
+plt.ylabel('PFN score (float32)')
+plt.title('PFN output correlation: float64 vs float32')
+cb = plt.colorbar()
+cb.set_label('log10(N jets)')
+
+plt.xlim(0, 1)
+plt.ylim(0, 1)
+
+plt.tight_layout()
+plt.savefig('pfn_corr_fp64_fp32.png')
+# plt.show()
+plt.close()
+
+
+'''
 # get ROC curve
-pfn_fp, pfn_tp, threshs = roc_curve(Y_test[:,1], preds[:,1])
+#pfn_fp, pfn_tp, threshs = roc_curve(Y_test[:,1], preds[:,1])
 
 # get area under the ROC curve
-auc = roc_auc_score(Y_test[:,1], preds[:,1])
-print()
-print('PFN AUC:', auc)
-print()
+#auc = roc_auc_score(Y_test[:,1], preds[:,1])
+#print()
+#print('PFN AUC:', auc)
+#print()
 
 # get multiplicity and mass for comparison
 masses = np.asarray([ef.ms_from_p4s(ef.p4s_from_ptyphims(x).sum(axis=0)) for x in X])
@@ -171,3 +211,5 @@ plt.ylim(0, 1)
 plt.legend(loc='lower left', frameon=False)
 #plt.show()
 plt.savefig('example_roc.pdf')
+
+'''
