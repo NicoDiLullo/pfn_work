@@ -90,7 +90,6 @@ Y = to_categorical(y, num_classes=2)
 
 print('Loaded quark and gluon jets')
 
-def preprocess(X):
 # preprocess by centering jets and normalizing pts
 for x in X:
     mask = x[:, 0] > TARGET_DTYPE(0)
