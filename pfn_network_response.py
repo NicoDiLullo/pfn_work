@@ -80,8 +80,8 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
-X_f32 = X.astype(TARGET_DTYPE, copy=True)
-X_f64 = X.astype(TARGET_DTYPE, copy=True)
+X_f32 = X.astype(np.float32, copy=True)
+X_f64 = X.astype(np.float64, copy=True)
 #X = X.astype(TARGET_DTYPE, copy=False)
 #print('Datatypes switched!')
 
