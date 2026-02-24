@@ -25,6 +25,6 @@ plt.xlim(0, 1)
 plt.ylim(0, 1)
 
 plt.tight_layout()
-plt.savefig('pfn_corr_fp64_fp32.pdf')
+plt.savefig('pfn_corr_fp64_fp32.png')
 # plt.show()
 plt.close()

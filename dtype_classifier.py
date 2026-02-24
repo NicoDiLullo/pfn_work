@@ -75,8 +75,11 @@ mc = ModelCheckpoint('best_pfn.keras', monitor='val_acc', mode='max', verbose=1,
 print('Loading the dataset ...')
 
 # load data
-X_base, y_base = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache')
+#X_base, y_base = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache')
 
+#/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out
+
+X_base, y_base = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out/datasets/fp32')
 print('Dataset loaded!')
 
 def load_and_run(X, y, dtype):
@@ -134,9 +137,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 
 
-X_64, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float64)
-X_32, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float32)
-X_16, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float16)
+#X_64, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float64)
+#X_32, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float32)
+#X_16, Y_64 = load_and_run(X_base.copy(), y_base.copy(), np.float16)
+
+
 '''
 def run_linear_classifier(X1, X2, label1, label2, seed):
     print(f"\n[Linear Model] Classifying {label1} vs {label2}...")

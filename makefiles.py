@@ -13,10 +13,12 @@
 
 # EnergyFlow - Python package for high-energy particle physics.
 # Copyright (C) 2017-2020 Patrick T. Komiske III and Eric Metodiev
+# modified to experiment with smaller dtypes
 
 # standard library imports
 from __future__ import absolute_import, division, print_function
-
+#import os
+#os.environ['TF_DISABLE_MLIR_GPU_OPS'] = '1'  # Fallback to CPU
 # standard numerical library imports
 
 # Data I/O and numerical imports
@@ -52,9 +54,10 @@ print("pfn_example.py\tWelcome!")
 ###############################################################################
 
 # data controls, can go up to 2000000 for full dataset
-#train, val, test = 75000, 10000, 15000
-train, val, test = 1500000, 250000, 250000
+train, val, test = 75000, 10000, 15000
+#train, val, test = 1500000, 250000, 250000
 use_pids = False
+TARGET_DTYPE = np.float32
 
 # network architecture parameters
 Phi_sizes, F_sizes = (100, 100, 128), (100, 100, 100)
@@ -73,86 +76,40 @@ mc = ModelCheckpoint('best_pfn.keras', monitor='val_acc', mode='max', verbose=1,
 print('Loading the dataset ...')
 
 # load data
-#/oscar/data/mleblan6/energyflow
-X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache')
-
-print('Dataset loaded!')
-
-# convert labels to categorical
+X, y = qg_jets.load(2000000, generator='pythia', pad=True, cache_dir='/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache')
 Y = to_categorical(y, num_classes=2)
 
-print('Loaded quark and gluon jets')
+X_32 = X.astype(TARGET_DTYPE, copy=True)
 
-# preprocess by centering jets and normalizing pts
-for x in X:
-    mask = x[:,0] > 0
-    yphi_avg = np.average(x[mask,1:3], weights=x[mask,0], axis=0)
-    x[mask,1:3] -= yphi_avg
-    x[mask,0] /= x[:,0].sum()
+Y_32 = Y.astype(TARGET_DTYPE, copy=True)
 
-# handle particle id channel
-if use_pids:
-    remap_pids(X, pid_i=3)
-else:
-    X = X[:,:,:3]
 
-print('Finished preprocessing')
 
-# do train/val/test split 
-(X_train, X_val, X_test,
- Y_train, Y_val, Y_test) = data_split(X, Y, val=val, test=test)
+X_16 = X.astype(np.float16, copy=True)
 
-print('Done train/val/test split')
-print('Model summary:')
+Y_16 = Y.astype(np.float16, copy=True)
 
-# build architecture
-pfn = PFN(input_dim=X.shape[-1], Phi_sizes=Phi_sizes, F_sizes=F_sizes)
+'''
+np.savez_compressed(
+    "jets_float32_compressed.npz",
+    X=X_32,
+    Y=Y_32
+)
+np.savez_compressed(
+    "jets_float16.npz_compressed",
+    X=X_16,
+    Y=Y_16
+)
+'''
 
-# train model
-pfn.fit(X_train, Y_train,
-        epochs=num_epoch,
-        batch_size=batch_size,
-        validation_data=(X_val, Y_val),
-        verbose=1,
-        callbacks=[es,mc])
+np.savez(
+    "jets_float64.npz",
+    X=X,
+    Y=y
+)
 
-# get predictions on test data
-preds = pfn.predict(X_test, batch_size=1000)
-
-# get ROC curve
-pfn_fp, pfn_tp, threshs = roc_curve(Y_test[:,1], preds[:,1])
-
-# get area under the ROC curve
-auc = roc_auc_score(Y_test[:,1], preds[:,1])
-print()
-print('PFN AUC:', auc)
-print()
-
-# get multiplicity and mass for comparison
-masses = np.asarray([ef.ms_from_p4s(ef.p4s_from_ptyphims(x).sum(axis=0)) for x in X])
-mults = np.asarray([np.count_nonzero(x[:,0]) for x in X])
-mass_fp, mass_tp, threshs = roc_curve(Y[:,1], -masses)
-mult_fp, mult_tp, threshs = roc_curve(Y[:,1], -mults)
-
-# some nicer plot settings 
-plt.rcParams['figure.figsize'] = (4,4)
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['figure.autolayout'] = True
-
-# plot the ROC curves
-plt.plot(pfn_tp, 1-pfn_fp, '-', color='black', label='PFN')
-plt.plot(mass_tp, 1-mass_fp, '-', color='blue', label='Jet Mass')
-plt.plot(mult_tp, 1-mult_fp, '-', color='red', label='Multiplicity')
-
-# axes labels
-plt.xlabel('Quark Jet Efficiency')
-plt.ylabel('Gluon Jet Rejection')
-
-# axes limits
-plt.xlim(0, 1)
-plt.ylim(0, 1)
-
-# make legend and show plot
-plt.legend(loc='lower left', frameon=False)
-#plt.show()
-plt.savefig('example_roc.pdf')
+np.savez_compressed(
+    "jets_float64_compressed.npz",
+    X=X,
+    Y=y
+)

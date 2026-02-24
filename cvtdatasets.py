@@ -7,7 +7,9 @@ cache_directory = '/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/e
 out_directory = '/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out'
 os.makedirs(out_directory, exist_ok=True)
 
-filenames = ["QG_jets_1.npz",
+filenames = [
+    "QG_jets.npz",
+    "QG_jets_1.npz",
     "QG_jets_2.npz",
     "QG_jets_3.npz",
     "QG_jets_4.npz",
@@ -25,11 +27,10 @@ filenames = ["QG_jets_1.npz",
     "QG_jets_16.npz",
     "QG_jets_17.npz",
     "QG_jets_18.npz",
-    "QG_jets_19.npz",
-    "QG_jets.npz"]
+    "QG_jets_19.npz"]
 
 def float_32(compressed=False):
-    out_directory_float32 = os.path.join(out_directory, "float32")
+    out_directory_float32 = os.path.join(out_directory, "fp32")
     os.makedirs(out_directory_float32, exist_ok=True)
     for filename in filenames:
         source = os.path.join(cache_directory, filename)
@@ -48,7 +49,7 @@ def float_32(compressed=False):
 
 
 def float_16(compressed=False):
-    out_directory_float16 = os.path.join(out_directory, "float16")
+    out_directory_float16 = os.path.join(out_directory, "fp16")
     os.makedirs(out_directory_float16, exist_ok=True)
     for filename in filenames:
         source = os.path.join(cache_directory, filename)

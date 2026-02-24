@@ -4,7 +4,14 @@ Some chronicles from trying to get this to run on my mac, and instructions for y
 
 First, create your venv as before
 
+Make sure python 3.10
+
 python3 -m venv tensorflow.venv
+source tensorflow.venv/bin/activate
+
+cd /Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work
+/Library/Frameworks/Python.framework/Versions/3.10/bin/python3 -m venv tensorflow.venv
+
 source tensorflow.venv/bin/activate
 
 Then, install the requirements for Mac (the regular requirements - (minus) a bunch of finicky Nvidia packages that do not work on MacOS). 
