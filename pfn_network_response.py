@@ -54,10 +54,10 @@ print("pfn_example.py\tWelcome!")
 ###############################################################################
 
 # data controls, can go up to 2000000 for full dataset
-#train, val, test = 75000, 10000, 15000
-train, val, test = 1500000, 250000, 250000
+train, val, test = 75000, 10000, 15000
+#train, val, test = 1500000, 250000, 250000
 use_pids = False
-TARGET_DTYPE = np.float32
+TARGET_DTYPE = np.float64
 
 # network architecture parameters
 Phi_sizes, F_sizes = (100, 100, 128), (100, 100, 100)
@@ -167,7 +167,7 @@ plt.xlim(0, 1)
 plt.ylim(0, 1)
 
 plt.tight_layout()
-plt.savefig('pfn_corr_fp64_fp32.png')
+plt.savefig('pfn_corr_fp64_fp32_fulldset.png')
 # plt.show()
 plt.close()
 
