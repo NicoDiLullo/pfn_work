@@ -54,8 +54,8 @@ print("pfn_example.py\tWelcome!")
 ###############################################################################
 
 # data controls, can go up to 2000000 for full dataset
-train, val, test = 75000, 10000, 15000
-#train, val, test = 1500000, 250000, 250000
+#train, val, test = 75000, 10000, 15000
+train, val, test = 1500000, 250000, 250000
 use_pids = False
 TARGET_DTYPE = np.float64
 
@@ -164,7 +164,7 @@ plt.xlim(0, 1)
 plt.ylim(0, 1)
 
 plt.tight_layout()
-plt.savefig('pfn_corr_fp16_fp32_test.png')
+plt.savefig('pfn_corr_fp16_fp32_full_dset.png')
 # plt.show()
 plt.close()
 
