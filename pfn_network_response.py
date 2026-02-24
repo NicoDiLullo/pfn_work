@@ -164,7 +164,7 @@ plt.xlim(0, 1)
 plt.ylim(0, 1)
 
 plt.tight_layout()
-plt.savefig('pfn_corr_fp64_fp32_fulldset.png')
+plt.savefig('pfn_corr_fp64_fp32_test.png')
 # plt.show()
 plt.close()
 
