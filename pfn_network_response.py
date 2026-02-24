@@ -80,11 +80,11 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
-X_f32 = X.astype(np.float32, copy=True)
-X_f64 = X.astype(np.float64, copy=True)
+#X_f32 = X.astype(np.float32, copy=True)
+#X_f64 = X.astype(np.float64, copy=True)
 #X = X.astype(TARGET_DTYPE, copy=False)
 #print('Datatypes switched!')
-
+X = X.astype(np.float64, copy=False)
 # convert labels to categorical
 Y = to_categorical(y, num_classes=2)
 
@@ -92,25 +92,22 @@ print('Loaded quark and gluon jets')
 
 # preprocess by centering jets and normalizing pts
 for x in X:
-    mask = x[:, 0] > TARGET_DTYPE(0)
-    w = x[mask, 0].astype(TARGET_DTYPE, copy=False)
+    mask = x[:, 0] > 0.0
+    w = x[mask, 0]
     coords = x[mask, 1:3]
-    wsum = w.sum(dtype=TARGET_DTYPE)
-    if wsum > TARGET_DTYPE(0):
-        num = (coords * w[:, None]).sum(axis=0, dtype=TARGET_DTYPE)
-        yphi_avg = num / wsum
-        x[mask, 1:3] -= yphi_avg.astype(TARGET_DTYPE, copy=False)
-
-    # normalize pt in TARGET_DTYPE
-    denom = x[:, 0].sum(dtype=TARGET_DTYPE)
-    if denom > TARGET_DTYPE(0):
+    wsum = w.sum()
+    if wsum > 0.0:
+        yphi_avg = (coords * w[:, None]).sum(axis=0) / wsum
+        x[mask, 1:3] -= yphi_avg
+    denom = x[:, 0].sum()
+    if denom > 0.0:
         x[mask, 0] /= denom
 
-# handle particle id channel
+# Drop pid if not used
 if use_pids:
     remap_pids(X, pid_i=3)
 else:
-    X = X[:,:,:3]
+    X = X[:, :, :3]
 
 print('Finished preprocessing')
 
