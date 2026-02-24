@@ -115,9 +115,9 @@ print('Finished preprocessing')
 (X_train, X_val, X_test,
  Y_train, Y_val, Y_test) = data_split(X, Y, val=val, test=test)
 
-X_train_f64 = X_train.astype(np.float16)
-X_val_f64 = X_val.astype(np.float16)
-X_test_f64 = X_test.astype(np.float16)
+X_train_f64 = X_train.astype(np.float64)
+X_val_f64 = X_val.astype(np.float64)
+X_test_f64 = X_test.astype(np.float64)
 
 X_train_f32 = X_train.astype(np.float32)
 X_val_f32 = X_val.astype(np.float32)
@@ -154,9 +154,9 @@ plt.figure(figsize=(5, 5))
 plt.hexbin(preds64, preds32, gridsize=100, bins='log')
 plt.plot([0, 1], [0, 1], 'k--', linewidth=1)  # y = x line
 
-plt.xlabel('PFN score (float16)')
+plt.xlabel('PFN score (float64)')
 plt.ylabel('PFN score (float32)')
-plt.title('PFN output correlation: float32 vs float16')
+plt.title('PFN output correlation: float32 vs float64')
 cb = plt.colorbar()
 cb.set_label('log10(N jets)')
 
@@ -164,7 +164,7 @@ plt.xlim(0, 1)
 plt.ylim(0, 1)
 
 plt.tight_layout()
-plt.savefig('pfn_corr_fp16_fp32_full_dset.png')
+plt.savefig('pfn_corr_fp64_fp32_full_dset.png')
 # plt.show()
 plt.close()
 
