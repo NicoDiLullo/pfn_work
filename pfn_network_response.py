@@ -54,8 +54,8 @@ print("pfn_example.py\tWelcome!")
 ###############################################################################
 
 # data controls, can go up to 2000000 for full dataset
-train, val, test = 75000, 10000, 15000
-#train, val, test = 1500000, 250000, 250000
+#train, val, test = 75000, 10000, 15000
+train, val, test = 1500000, 250000, 250000
 use_pids = False
 TARGET_DTYPE = np.float32
 
@@ -212,4 +212,3 @@ plt.legend(loc='lower left', frameon=False)
 plt.savefig('example_roc.pdf')
 
 '''
-hi I'm nico
