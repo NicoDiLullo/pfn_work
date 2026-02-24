@@ -154,9 +154,9 @@ plt.figure(figsize=(5, 5))
 plt.hexbin(preds64, preds32, gridsize=100, bins='log')
 plt.plot([0, 1], [0, 1], 'k--', linewidth=1)  # y = x line
 
-plt.xlabel('PFN score (float64)')
+plt.xlabel('PFN score (float16)')
 plt.ylabel('PFN score (float32)')
-plt.title('PFN output correlation: float64 vs float32')
+plt.title('PFN output correlation: float32 vs float16')
 cb = plt.colorbar()
 cb.set_label('log10(N jets)')
 
