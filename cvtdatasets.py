@@ -3,7 +3,7 @@ import os
 
 #print('Loading the dataset ...')
 
-cache_directory = '/users/ndilullo/work/pfn_work/efcache'
+cache_directory = '/users/ndilullo/work/pfn_work/efcache/datasets'
 out_directory = '/users/ndilullo/work/pfn_work/efcache/out'
 os.makedirs(out_directory, exist_ok=True)
 
