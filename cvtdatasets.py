@@ -86,7 +86,7 @@ def bfloat_16(compressed=False):
 def main():
     float_32(True)
     float_16(True)
-    bfloat_16(True)
+    #bfloat_16(True)
 
 
 if __name__ == "__main__":
