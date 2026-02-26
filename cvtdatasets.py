@@ -3,8 +3,8 @@ import os
 
 #print('Loading the dataset ...')
 
-cache_directory = '/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/datasets'
-out_directory = '/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out'
+cache_directory = '/users/ndilullo/work/pfn_work/efcache'
+out_directory = '/users/ndilullo/work/pfn_work/efcache/out'
 os.makedirs(out_directory, exist_ok=True)
 
 filenames = [
@@ -65,9 +65,28 @@ def float_16(compressed=False):
                 #filename = filename + "_float16.npz"
                 write_to = os.path.join(out_directory_float16, filename)
                 np.savez(write_to, X=X, y=y)
+
+def bfloat_16(compressed=False):
+    out_directory_float16 = os.path.join(out_directory, "bf16")
+    os.makedirs(out_directory_float16, exist_ok=True)
+    for filename in filenames:
+        source = os.path.join(cache_directory, filename)
+        with np.load(source) as data:
+            X = data["X"].astype(np.bfloat16, copy=True)
+            y = data["y"].astype(np.bfloat16, copy=True)
+            #filename = filename.replace(".npz", "")
+            if compressed:
+                #filename = filename + "_float16compressed.npz"
+                write_to = os.path.join(out_directory_float16, filename)
+                np.savez_compressed(write_to, X=X, y=y)
+            else:
+                #filename = filename + "_float16.npz"
+                write_to = os.path.join(out_directory_float16, filename)
+                np.savez(write_to, X=X, y=y)
 def main():
     float_32(True)
     float_16(True)
+    bfloat_16(True)
 
 
 if __name__ == "__main__":
