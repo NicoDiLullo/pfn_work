@@ -80,7 +80,7 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
-X = X.astype(TARGET_DTYPE, copy=False)
+#X = X.astype(TARGET_DTYPE, copy=False)
 print('Datatypes switched!')
 
 # convert labels to categorical
