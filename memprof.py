@@ -57,7 +57,7 @@ print("pfn_example.py\tWelcome!")
 #train, val, test = 75000, 10000, 15000
 train, val, test = 1500000, 250000, 250000
 use_pids = False
-TARGET_DTYPE = np.float32
+TARGET_DTYPE = np.float64
 
 # network architecture parameters
 Phi_sizes, F_sizes = (100, 100, 128), (100, 100, 100)
