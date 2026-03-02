@@ -24,6 +24,10 @@ from __future__ import absolute_import, division, print_function
 
 # Data I/O and numerical imports
 #import h5py
+
+#AUC rn is PFN AUC: 0.86241891012996, which is suspiciously high
+#esp given baseline is PFN AUC: 0.8783335569790659
+
 import numpy as np
 
 # ML imports
