@@ -84,9 +84,21 @@ print('Loading the dataset ...')
 X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir='/users/ndilullo/work/pfn_work/efcache')
 
 print('Dataset loaded!')
+FP8_MAX = 240.0
+EPS = 1e-12
 
-X = fp8_rdtrip(X)
-X = X.numpy().astype(np.float32, copy=False)
+# per-channel amax over (N, P) dims -> shape (1, 1, C)
+amax = np.max(np.abs(X), axis=(0, 1), keepdims=True).astype(np.float32, copy=False)
+scale = np.maximum(amax / FP8_MAX, EPS).astype(np.float32, copy=False)
+
+# scale down, fp8 roundtrip, scale back
+X_scaled = (X / scale).astype(np.float32, copy=False)
+X_scaled_tf = tf.convert_to_tensor(X_scaled, dtype=tf.float32)
+Xq_scaled_tf = fp8_rdtrip(X_scaled_tf)
+X = (Xq_scaled_tf.numpy().astype(np.float32, copy=False) * scale)
+
+#X = fp8_rdtrip(X)
+#X = X.numpy().astype(np.float32, copy=False)
 print('Datatypes switched!')
 
 # convert labels to categorical
