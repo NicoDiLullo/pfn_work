@@ -4,6 +4,7 @@ import os
 orig_dir = "/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/datasets"
 f32_dir  = "/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out/fp32"
 f16_dir  = "/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out/fp16"
+bf16_dir  = "/Users/nicholasdilullo/Desktop/research/LeBlancLab/pfn_work/efcache/out/fp16"
 
 filenames = [
     "QG_jets.npz",
