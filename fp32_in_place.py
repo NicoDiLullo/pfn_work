@@ -1,7 +1,7 @@
 """
 This file contains a script that is meant to simulate the effect of storing data
-in the FP16 format. Data is loaded (from float64), cast in place to float 16,
-and then to float 32, where the model is then trained as normal.
+in the FP16 format. Data is loaded (from float64), and then cast to float 32,
+from whence the model is then trained as normal.
 
 N DiLullo and M LeBlanc, 2026
 """
@@ -157,4 +157,4 @@ plt.ylim(0, 1)
 # make legend and show plot
 plt.legend(loc='lower left', frameon=False)
 #plt.show()
-plt.savefig('roc_float32__inplace_final.png')
+plt.savefig('roc_float32_inplace_final.png')
