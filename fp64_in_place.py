@@ -1,7 +1,7 @@
 """
 This file contains a script that is meant to simulate the effect of storing data
-in the FP16 format. Data is loaded (from float64), cast in place to float 16,
-and then to float 32, where the model is then trained as normal.
+in the FP16 format. Data is loaded (from float64), and all preprocessing and training
+is done in this format.
 
 N DiLullo and M LeBlanc, 2026
 """
@@ -129,7 +129,8 @@ pfn_fp, pfn_tp, threshs = roc_curve(Y_test[:,1], preds[:,1])
 # get area under the ROC curve
 auc = roc_auc_score(Y_test[:,1], preds[:,1])
 print()
-print('PFN AUC:', auc)
+with open("results.txt", "w") as f:
+    f.write(f"PFN AUC: {auc}\n")
 print()
 
 # get multiplicity and mass for comparison
