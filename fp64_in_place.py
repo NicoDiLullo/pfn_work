@@ -159,4 +159,4 @@ plt.ylim(0, 1)
 # make legend and show plot
 plt.legend(loc='lower left', frameon=False)
 #plt.show()
-plt.savefig('roc_float32__inplace_final.png')
+plt.savefig('roc_float64_inplace_final.png')
