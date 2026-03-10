@@ -52,12 +52,13 @@ print("pfn_example.py\tWelcome!")
 ################################### SETTINGS ###################################
 # the commented values correspond to those in 1810.05165
 ###############################################################################
-
+np.random.seed(0)
+tf.random.set_seed(0)
 # data controls, can go up to 2000000 for full dataset
 #train, val, test = 75000, 10000, 15000
 train, val, test = 1500000, 250000, 250000
 use_pids = False
-TARGET_DTYPE = np.float64
+TARGET_DTYPE = np.float32
 
 # network architecture parameters
 Phi_sizes, F_sizes = (100, 100, 128), (100, 100, 100)
@@ -80,8 +81,8 @@ X, y = qg_jets.load(train + val + test, generator='pythia', pad=True, cache_dir=
 
 print('Dataset loaded!')
 
+X = X.astype(np.float16, copy=False)
 X = X.astype(np.float32, copy=False)
-X = X.astype(np.float64, copy=False)
 print('Datatypes switched!')
 
 # convert labels to categorical
@@ -170,4 +171,4 @@ plt.ylim(0, 1)
 # make legend and show plot
 plt.legend(loc='lower left', frameon=False)
 #plt.show()
-plt.savefig('roc_float64.png')
+plt.savefig('roc_float64_final.png')
