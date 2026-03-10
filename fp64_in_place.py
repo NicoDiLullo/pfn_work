@@ -59,7 +59,7 @@ es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=15)
 mc = ModelCheckpoint('best_pfn.keras', monitor='val_acc', mode='max', verbose=1, save_best_only=True)
 
 ################################################################################
-keras.config.set_floatx('float64')
+tf.keras.backend.set_floatx('float64')
 np.random.seed(0)
 tf.random.set_seed(0)
 print('Loading the dataset ...')
